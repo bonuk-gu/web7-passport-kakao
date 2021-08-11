@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var fs = require('fs');
 var template = require('../lib/template.js');
 var dbConnection = require('../db_info.js');
-const { doesNotMatch } = require('assert');
 var dbconn = dbConnection.init();
 
 module.exports = function(passport){
