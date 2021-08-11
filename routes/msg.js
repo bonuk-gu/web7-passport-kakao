@@ -62,8 +62,8 @@ send_message = async (number, message) => {
     
     console.log('ready to call exios');
     
-    /*
-    await axios({
+    
+    axios({
         method: method,
         json: true,
         url: url,
@@ -73,7 +73,7 @@ send_message = async (number, message) => {
         "x-ncp-apigw-timestamp": date,
         "x-ncp-apigw-signature-v2": signature,
         },
-        body: {
+        data: {
             type: "SMS",
             countryCode: "82",
             from: "01033235673",
@@ -84,9 +84,8 @@ send_message = async (number, message) => {
         },
     }).then( res => { console.log(res) })
     .catch( err => { console.error(err) })
-   */
     
-    
+    /*
     const body = {
         type: "SMS",
         countryCode: "82",
@@ -113,13 +112,14 @@ send_message = async (number, message) => {
     }catch(err) {
         console.log(err);
     }
-        /*.then((res) => {
+        .then((res) => {
             console.log(res);
         })
         .catch((err) => {
             console.error(err.response.data);
-        })*/
-   // console.log(result);
+        })
+   console.log(result);
+   */
 
     console.log("done");
     
