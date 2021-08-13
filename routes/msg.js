@@ -30,7 +30,7 @@ router.post('/sms_process', async (request, response) => {
     var message = post.message;
     send_message(number, message);
     console.log("complete");
-    response.send("complete!");
+    response.redirect('/msg/sms');
 })
 
 send_message = async (number, message) => {
@@ -38,9 +38,9 @@ send_message = async (number, message) => {
     var contents = message;
 
     const date = Date.now().toString();
-    const uri = 'ncp:sms:kr::nodejs-sendingsms'; //서비스 ID
-    const secretKey = '';// Secret Key
-    const accessKey = '';//Access Key
+    const uri = 'ncp:sms:kr:261250582146:nodejs-sendingsms'; //서비스 ID
+    const secretKey = '4DBcF2Iulu0vl7csEqhbUqmIvHqVPuU0d8u0emfM'; // Secret Key
+    const accessKey = '26oXRH8IdFdePwULzJj4'; //Access Key
     const method = "POST";
     const space = " ";
     const newLine = "\n";
@@ -62,7 +62,6 @@ send_message = async (number, message) => {
     
     console.log('ready to call exios');
     
-    
     axios({
         method: method,
         json: true,
@@ -73,7 +72,7 @@ send_message = async (number, message) => {
         "x-ncp-apigw-timestamp": date,
         "x-ncp-apigw-signature-v2": signature,
         },
-        data: {
+        body: {
             type: "SMS",
             countryCode: "82",
             from: "01033235673",
@@ -82,8 +81,12 @@ send_message = async (number, message) => {
                 { to: `${user_phone_number}`, },
             ],
         },
-    }).then( res => { console.log(res) })
-    .catch( err => { console.error(err) })
+    }, function (err, res, html) {
+        if (err) console.log('error!!!!!\n', err);
+        console.log('success!!!!!\n', html);
+    })
+
+    console.log('\n\nresult:', result);
     
     /*
     const body = {
@@ -98,7 +101,7 @@ send_message = async (number, message) => {
 
     const options = {
         headers: {
-            "Contenc-type": "application/json; charset=utf-8",
+            "Content-Type": "application/json; charset=utf-8",
             "x-ncp-iam-access-key": accessKey,
             "x-ncp-apigw-timestamp": date,
             "x-ncp-apigw-signature-v2": signature,
@@ -122,7 +125,26 @@ send_message = async (number, message) => {
    */
 
     console.log("done");
-    
 }
+
+router.get('/kakao', (request, response) => {
+    if(!auth.isOwner(request, response)){
+        response.redirect('/');
+        return false;
+    }
+    var title = 'Kakao';
+    var list = 'template.list(request.list)';
+    var html = template.html(title, '', 
+        `<a href="/kakao/sendmetext">나에게 보내기</a> | <a href="/kakao/sendfriendstext">친구에게 보내기</a>
+        `, 
+        '', 
+        auth.statusUI(request, response));
+    
+    response.send(html);
+});
+
+router.get('/kakao/sendmetext', (request, response) => {
+    url: "https://kapi.kakao.com/v2/api/talk/memo/default/send"
+})
 
 module.exports = router;
