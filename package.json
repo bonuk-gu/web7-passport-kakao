@@ -22,11 +22,15 @@
   "dependencies": {
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
+    "circular-json": "^0.5.9",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "express": "^4.17.1",
+    "express-http-proxy": "^1.6.2",
     "express-session": "^1.17.2",
+    "flatted": "^3.2.2",
     "lowdb": "^2.1.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.0",
@@ -38,9 +42,11 @@
     "passport-kakao": "^1.0.1",
     "passport-local": "^1.0.0",
     "passport-naver": "^1.0.6",
+    "qs": "^6.7.0",
     "request": "^2.88.2",
     "sanitize-html": "^2.4.0",
     "session-file-store": "^1.5.0",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "urlencode": "^1.1.0"
   }
 }

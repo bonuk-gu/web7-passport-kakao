@@ -7,7 +7,9 @@ var compression = require('compression');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session)
 var flash = require('connect-flash');
+var cors = require('cors');
 
+app.use(cors());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compression());

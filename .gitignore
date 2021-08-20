@@ -1,3 +1,5 @@
 node_modules/
 config/google.json
+config/kakao.json
+config/naver.json
 sessions/
