@@ -5,7 +5,7 @@ var dbconnInfo = {
         host: 'localhost',
         port: '3306',
         user: 'root',
-        password: '',
+        password: 'secpass6180',
         database: 'google_passport'
     }
 }

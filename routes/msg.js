@@ -30,7 +30,7 @@ router.post('/sms_process', async (request, response) => {
     var message = post.message;
     send_message(number, message);
     console.log("complete");
-    response.send("complete!");
+    response.redirect('/msg/sms');
 })
 
 send_message = async (number, message) => {
@@ -38,9 +38,9 @@ send_message = async (number, message) => {
     var contents = message;
 
     const date = Date.now().toString();
-    const uri = 'ncp:sms:kr::nodejs-sendingsms'; //서비스 ID
-    const secretKey = '';// Secret Key
-    const accessKey = '';//Access Key
+    const uri = 'ncp:sms:kr:261250582146:nodejs-sendingsms'; //서비스 ID
+    const secretKey = '4DBcF2Iulu0vl7csEqhbUqmIvHqVPuU0d8u0emfM';// Secret Key
+    const accessKey = '26oXRH8IdFdePwULzJj4';//Access Key
     const method = "POST";
     const space = " ";
     const newLine = "\n";
