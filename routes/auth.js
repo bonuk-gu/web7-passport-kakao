@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var template = require('../lib/template.js');
 var dbConnection = require('../db_info.js');
+var axios = require('axios');
 var dbconn = dbConnection.init();
+var qs = require('qs');
 
 module.exports = function(passport){
     router.get('/login', function(request, response){ 
@@ -93,6 +95,67 @@ module.exports = function(passport){
 
            
         }   
+    })
+
+    router.get('/kakaoapi', (req, res) => {
+        res.redirect('https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=75ee58cd7a36bd30913070f625e3caef&redirect_uri=http://localhost:3002/auth/kakaoapi/callback');
+    })
+
+    router.get('/kakaoapi/callback', async (req, res) => {
+        try{//access토큰을 받기 위한 코드
+            var token = await axios({//token
+                method: 'POST',
+                url: 'https://kauth.kakao.com/oauth/token',
+                headers:{
+                    'Content-Type':'application/x-www-form-urlencoded'
+                },
+                data: `grant_type=authorization_code&client_id=75ee58cd7a36bd30913070f625e3caef&client_secret=5hHsmODsCcjfGl7COf8jC8O92L3dF4in&redirectUri=http://localhost:3002/auth/kakaoapi/callback&code=${req.query.code}`
+                //여기서 JSON 형식으로 하면 error
+                
+            })
+        } catch(err) {
+            console.log(err);
+        }
+
+        console.log(token.data);
+
+        var accessToken = token.data.access_token;
+
+        console.log(accessToken);
+
+        try { 
+            var result = await axios({
+                method: 'GET',
+                url: "https://kapi.kakao.com/v1/user/access_token_info",
+                headers: {
+                "Authorization": `Bearer ${accessToken}`
+                }
+            })
+            console.log('\nresult!!\n', result.data);
+
+        } catch(err) {
+            console.log(err);
+        }
+
+
+        res.send('kakaoapi');
+
+        // let user;
+        // try{
+        //     console.log(token);//access정보를 가지고 또 요청해야 정보를 가져올 수 있음.
+        //     user = await axios({
+        //         method:'get',
+        //         url:'https://kapi.kakao.com/v2/user/me',
+        //         headers:{
+        //             Authorization: `Bearer ${token.data.access_token}`
+        //         }//헤더에 내용을 보고 보내주겠다.
+        //     })
+        // }catch(e){
+        //     res.json(e.data);
+        // }
+        // console.log(user);
+
+        // res.send('success');
     })
     
     router.get('/logout', function(request, response){
