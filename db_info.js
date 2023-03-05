@@ -3,9 +3,9 @@ var mysql = require('mysql');
 var dbconnInfo = {
     local: {
         host: 'localhost',
-        port: '3306',
+        port: '3307',
         user: 'root',
-        password: 'secpass6180',
+        password: '895252',
         database: 'google_passport'
     }
 }
